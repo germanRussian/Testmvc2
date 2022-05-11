@@ -9,7 +9,7 @@
 <body>
 	홈화면 > 게시판 글쓰기
 	<hr>
-	<form action="writerAct.jsp" method="post">
+	<form action="WriterCon" method="post">
 		
 
 
