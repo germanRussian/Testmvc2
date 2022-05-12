@@ -39,6 +39,13 @@ public class ListController extends HttpServlet {
 		ListServiceImpl service = new ListServiceImpl();
 		Collection<BoardVO> list = service.read();
 		request.setAttribute("list", list);
+		
+		/*
+		 * Collection<BoardVO> page = service.paging(); request.setAttribute("page",
+		 * page);
+		 */
+		
+		
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("list.jsp");
 		dispatcher.forward(request, response);

@@ -31,5 +31,7 @@
 		<br>
 		<button>글 쓰 기.</button>
 	</form>
+	<br>
+	<button onclick="location.href='ListCon'"> 목 록 </button>
 </body>
 </html>

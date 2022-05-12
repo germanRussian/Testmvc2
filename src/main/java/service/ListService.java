@@ -6,4 +6,5 @@ import domain.BoardVO;
 
 public interface ListService {
 	public Collection<BoardVO> read();
+	/* public Collection<BoardVO> paging(); */
 }

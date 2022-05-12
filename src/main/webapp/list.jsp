@@ -11,9 +11,8 @@
 
 
 <%
-
-Collection<BoardVO> list = (Collection)request.getAttribute("list");
-
+Collection<BoardVO> list = (Collection) request.getAttribute("list");
+Collection<BoardVO> page1 = (Collection) request.getAttribute("page");
 %>
 <!DOCTYPE html>
 <html>
@@ -50,11 +49,25 @@ Collection<BoardVO> list = (Collection)request.getAttribute("list");
 			<%
 			}
 			}
-		%>		
+			%>
 		</tbody>
 	</table>
-	<!-- jsp -->
+	<br>
+	<%-- <%
+	{
+		Iterator<BoardVO> it1 = page.iterator();
+		while (it1.hasNext()) {
+			BoardVO vo1 = it1.next();
+	%>
+	<div>
+		<%=vo1.getPage()%></div>
+	<%
+	}
+	}
+	%> --%>
+
+
 	<button onclick="location.href='WriterCon'">글 작성하기</button>
-	
+
 </body>
 </html>
