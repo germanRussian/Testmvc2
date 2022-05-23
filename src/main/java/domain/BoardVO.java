@@ -12,17 +12,9 @@ public class BoardVO {
 	//-----------------------------------------------------
 	
 	
-	// 한 화면에 보여줄 리스트 갯수, 페이징 범위의 갯수
-	public static final int pagePerList = 10;
-	public static final int pagingCount = 10;
-	private int page;
-	public int getPage() {
-		return page;
-	}
-
-	public void setPage(int page) {
-		this.page = page;
-	}
+	
+	
+	
 
 	
 	

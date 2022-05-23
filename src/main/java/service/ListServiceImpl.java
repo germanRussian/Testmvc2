@@ -1,9 +1,11 @@
 package service;
 
-import java.awt.print.Pageable;
+
 import java.util.Collection;
 
+import domain.BoardInfo;
 import domain.BoardVO;
+
 import mapper.ListMapper;
 
 public class ListServiceImpl implements ListService{
@@ -14,14 +16,31 @@ public class ListServiceImpl implements ListService{
 		return new ListMapper().read();
 	}
 
-	/*
-	 * @Override public int[] paging(BoardVO vo) { // TODO Auto-generated method
-	 * stub return new ListMapper().paging(vo); }
-	 */
+	public int totalRow() {
+		// TODO Auto-generated method stub
+		return new ListMapper().totalRow();
+	}
+
+	
+	//
+	public BoardInfo boardInfo() {
+		BoardInfo boardInfo = new BoardInfo();
+		boardInfo.setList(new ListMapper().read());
+		boardInfo.setTotalRow(new ListMapper().totalRow());
+		return boardInfo;
+	}
+
+	//
+	public BoardInfo boardInfo(int startPage, int pageRow) {
+		BoardInfo boardInfo = new BoardInfo();
+		boardInfo.setList(new ListMapper().read(startPage,pageRow));
+		boardInfo.setTotalRow(new ListMapper().totalRow());
+		return boardInfo;
+	}
+
 
 	
 
-	
 	
 
 }
