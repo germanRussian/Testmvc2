@@ -177,8 +177,6 @@ public class ListMapper {
 
 	}
 
-
-
 	// 페이징1
 	public Collection<BoardVO> read(int startPage, int pageRow, String field, String keyWord) {
 		String url = "jdbc:mysql://localhost:3306/smart?characterEncoding=UTF-8&serverTimezone=Asia/Seoul";
@@ -208,14 +206,12 @@ public class ListMapper {
 		if ("titleContentAnd".equals(field)) {
 			sql.append("and ( title like concat('%',?,'%') and content like concat('%',?,'%')) ");
 		}
-		
 
 		sql.append(" order by num desc limit ?,? ");
 
 		ArrayList<BoardVO> list = new ArrayList<BoardVO>();
 		BoardVO vo = null;
 		int idx = 1;
-			
 
 		try {
 
@@ -243,14 +239,10 @@ public class ListMapper {
 				stmt.setString(idx++, keyWord);
 				stmt.setString(idx++, keyWord);
 			}
-			
-			
 
 			stmt.setInt(idx++, startPage);
 			stmt.setInt(idx++, pageRow);
-			
-			
-			
+
 			// 출력
 			rs = stmt.executeQuery();
 
@@ -262,6 +254,8 @@ public class ListMapper {
 				vo.setTitle(rs.getString("title"));
 				vo.setWriter(rs.getString("writer"));
 				vo.setWriterDate(rs.getTimestamp("writerDate"));
+				vo.setRealFileName(rs.getString("realFileName"));
+				vo.setRealSaveFileName(rs.getString("realSaveFileName"));
 
 				list.add(vo);
 
@@ -285,168 +279,177 @@ public class ListMapper {
 		}
 		return list;
 	}
-	
-	
+
 	// 검색에 대한 게시물 수2
-		public int totalRow1( String keyWord1, String keyWord2, String keyWord3) {
-			String url = "jdbc:mysql://localhost:3306/smart?characterEncoding=UTF-8&serverTimezone=Asia/Seoul";
-			String user = "root";
-			String password = "smart";
+	public int totalRow1( String keyWord1, String keyWord2, String keyWord3) {
+		String url = "jdbc:mysql://localhost:3306/smart?characterEncoding=UTF-8&serverTimezone=Asia/Seoul";
+		String user = "root";
+		String password = "smart";
 
-			Connection conn = null;
-			PreparedStatement stmt = null;
-			ResultSet rs = null;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 
-			StringBuffer sql = new StringBuffer();
-			sql.append(" SELECT count(*)as cnt FROM board ");
-			sql.append(" where (title like concat('%',?,'%') or writer like concat('%',?,'%')  or content like concat('%',?,'%')) ");
-			sql.append(" order by num desc");
+		StringBuffer sql = new StringBuffer();
+		sql.append(" SELECT count(*)as cnt FROM board ");
+		sql.append(
+				" where (title like concat('%',?,'%') and writer like concat('%',?,'%')  and content like concat('%',?,'%')) ");
+		sql.append(" order by num desc");
 
-			int totalRow = 0;
+		int inx = 1;
+		int totalRow = 0;
+
+		try {
+
+			// 드라이버로드
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			// 연결
+			conn = DriverManager.getConnection(url, user, password);
+			// SQL
+			stmt = conn.prepareStatement(sql.toString());
+			//종합 검색
+			if(keyWord2==null && keyWord3==null) {
+				stmt.setString(inx++, keyWord1);
+			}
+			if(keyWord3==null) {
+				stmt.setString(inx++, keyWord1);
+				stmt.setString(inx++, keyWord2);
+			}
+			if(keyWord1 != null && keyWord2 != null && keyWord3 != null) {
+				stmt.setString(inx++, keyWord1);
+				stmt.setString(inx++, keyWord2);
+				stmt.setString(inx++, keyWord3);
+			}
+//			stmt.setString(1, keyWord1);
+//			stmt.setString(2, keyWord2);
+//			stmt.setString(3, keyWord3);
+//			
 			
+
+			// 출력
+			rs = stmt.executeQuery();
+
+			if (rs.next()) {
+
+				totalRow = rs.getInt("cnt");
+
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
 			try {
-
-				// 드라이버로드
-				Class.forName("com.mysql.cj.jdbc.Driver");
-				// 연결
-				conn = DriverManager.getConnection(url, user, password);
-				// SQL
-				stmt = conn.prepareStatement(sql.toString());
-				stmt.setString(1, keyWord1);
-				stmt.setString(2, keyWord2);
-				stmt.setString(3, keyWord3);
-				
-				// 출력
-				rs = stmt.executeQuery();
-				
-
-				if (rs.next()) {
-
-					totalRow = rs.getInt("cnt");
-
-				}
-
-			} catch (Exception e) {
+				if (rs != null)
+					rs.close();
+				if (stmt != null)
+					stmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} finally {
-				try {
-					if (rs != null)
-						rs.close();
-					if (stmt != null)
-						stmt.close();
-					if (conn != null)
-						conn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
-			return totalRow;
+		}
+		return totalRow;
 
+	}
+
+	// 페이징2
+	public Collection<BoardVO> read1(int startPage, int pageRow, String field1, String keyWord1, String keyWord2,
+			String keyWord3) {
+		String url = "jdbc:mysql://localhost:3306/smart?characterEncoding=UTF-8&serverTimezone=Asia/Seoul";
+		String user = "root";
+		String password = "smart";
+
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		StringBuffer sql = new StringBuffer();
+		sql.append(" SELECT * FROM board ");
+		sql.append(" where 1=1 ");
+
+		if ("title".equals(field1)) {
+			sql.append("and title like concat('%',?,'%')  ");
+		}
+		if ("titleWriter".equals(field1)) {
+			sql.append("and ( title like concat('%',?,'%') and writer like concat('%',?,'%')) ");
+		}
+		if ("titleWriterContent".equals(field1)) {
+			sql.append(
+					"and ( title like concat('%',?,'%') and writer like concat('%',?,'%') and content like concat('%',?,'%')) ");
 		}
 
-	
-	
-	// 페이징2
-		public Collection<BoardVO> read1(int startPage, int pageRow, String field1, String keyWord1, String keyWord2, String keyWord3) {
-			String url = "jdbc:mysql://localhost:3306/smart?characterEncoding=UTF-8&serverTimezone=Asia/Seoul";
-			String user = "root";
-			String password = "smart";
+		sql.append(" order by num desc limit ?,? ");
 
-			Connection conn = null;
-			PreparedStatement stmt = null;
-			ResultSet rs = null;
+		ArrayList<BoardVO> list = new ArrayList<BoardVO>();
+		BoardVO vo = null;
 
-			StringBuffer sql = new StringBuffer();
-			sql.append(" SELECT * FROM board ");
-			sql.append(" where 1=1 ");
-			
+		int idxx = 1;
 
-			if ("titleW".equals(field1)) {
-				sql.append("and title like concat('%',?,'%')  ");
+		try {
+
+			// 드라이버로드
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			// 연결
+			conn = DriverManager.getConnection(url, user, password);
+			// SQL
+			stmt = conn.prepareStatement(sql.toString());
+			// 검색
+
+			// 종합 검색
+			if ("title".equals(field1)) {
+				stmt.setString(idxx++, keyWord1);
 			}
 			if ("titleWriter".equals(field1)) {
-				sql.append("and ( title like concat('%',?,'%') and writer like concat('%',?,'%')) ");
+				stmt.setString(idxx++, keyWord1);
+				stmt.setString(idxx++, keyWord2);
 			}
 			if ("titleWriterContent".equals(field1)) {
-				sql.append("and ( title like concat('%',?,'%') and writer like concat('%',?,'%') and content like concat('%',?,'%')) ");
+				stmt.setString(idxx++, keyWord1);
+				stmt.setString(idxx++, keyWord2);
+				stmt.setString(idxx++, keyWord3);
 			}
 
-			sql.append(" order by num desc limit ?,? ");
+			stmt.setInt(idxx++, startPage);
+			stmt.setInt(idxx++, pageRow);
 
-			ArrayList<BoardVO> list = new ArrayList<BoardVO>();
-			BoardVO vo = null;
-			
-			int idxx = 1;
-			
+			// 출력
+			rs = stmt.executeQuery();
 
+			while (rs.next()) {
+
+				vo = new BoardVO();
+
+				vo.setNum(rs.getInt("num"));
+				vo.setTitle(rs.getString("title"));
+				vo.setWriter(rs.getString("writer"));
+				vo.setWriterDate(rs.getTimestamp("writerDate"));
+				vo.setRealFileName(rs.getString("realFileName"));
+				vo.setRealSaveFileName(rs.getString("realSaveFileName"));
+
+				list.add(vo);
+
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
 			try {
-
-				// 드라이버로드
-				Class.forName("com.mysql.cj.jdbc.Driver");
-				// 연결
-				conn = DriverManager.getConnection(url, user, password);
-				// SQL
-				stmt = conn.prepareStatement(sql.toString());
-				// 검색
-				
-				
-				
-				//종합 검색
-				if ("title".equals(field1)) {
-					stmt.setString(idxx++, keyWord1);
-				}
-				if ("titleWriter".equals(field1)) {
-					stmt.setString(idxx++, keyWord1);
-					stmt.setString(idxx++, keyWord2);
-				}
-				if ("titleWriterContent".equals(field1)) {
-					stmt.setString(idxx++, keyWord1);
-					stmt.setString(idxx++, keyWord2);
-					stmt.setString(idxx++, keyWord3);
-				}
-
-				
-				
-				stmt.setInt(idxx++, startPage);
-				stmt.setInt(idxx++, pageRow);
-				
-				
-				// 출력
-				rs = stmt.executeQuery();
-
-				while (rs.next()) {
-
-					vo = new BoardVO();
-
-					vo.setNum(rs.getInt("num"));
-					vo.setTitle(rs.getString("title"));
-					vo.setWriter(rs.getString("writer"));
-					vo.setWriterDate(rs.getTimestamp("writerDate"));
-
-					list.add(vo);
-
-				}
-
-			} catch (Exception e) {
+				if (rs != null)
+					rs.close();
+				if (stmt != null)
+					stmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} finally {
-				try {
-					if (rs != null)
-						rs.close();
-					if (stmt != null)
-						stmt.close();
-					if (conn != null)
-						conn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
-			return list;
 		}
-
+		return list;
+	}
 
 }

@@ -42,7 +42,7 @@ public class ListServiceImpl implements ListService {
 		BoardInfo boardInfo = new BoardInfo();
 		boardInfo.setList(
 				new ListMapper().read1(startPage, pageRow, field1, keyWord1, keyWord2, keyWord3));
-		boardInfo.setTotalRow(new ListMapper().totalRow1(keyWord1, keyWord2, keyWord3));
+		boardInfo.setTotalRow(new ListMapper().totalRow1( keyWord1, keyWord2, keyWord3));
 		return boardInfo;
 	}
 

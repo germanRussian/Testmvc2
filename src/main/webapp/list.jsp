@@ -32,6 +32,11 @@ int lastPage = totalRow / pageRow + ((totalRow % pageRow == 0) ? 0 : +1);
 //	response.sendRedirect("http://localhost/Testmvc2/ListCon?pageNum=1");
 //}
 
+//글 순번 음수 방지
+/* if(totalNum<1){
+	totalNum = null;
+} */
+
 //Collection<BoardVO> list = (Collection)request.getAttribute("list");
 //int totalRow = (Integer)request.getAttribute("totalRow");
 %>
@@ -100,8 +105,8 @@ int lastPage = totalRow / pageRow + ((totalRow % pageRow == 0) ? 0 : +1);
 
 					<option value="">선택</option>
 
-					<option value="titleW"
-						<%="titleW".equals(field1) ? "selected='selected'" : ""%>>제목</option>
+					<option value="title"
+						<%="title".equals(field1) ? "selected='selected'" : ""%>>제목</option>
 
 					<option value="titleWriter"
 						<%="titleWriter".equals(field1) ? "selected='selected'" : ""%>>제목
@@ -132,6 +137,7 @@ int lastPage = totalRow / pageRow + ((totalRow % pageRow == 0) ? 0 : +1);
 					<th>글순번</th>
 					<th>글고유번호</th>
 					<th>제목</th>
+					<th>첨부파일</th>
 					<th>작성자</th>
 					<th>작성일</th>
 				</tr>
@@ -147,6 +153,7 @@ int lastPage = totalRow / pageRow + ((totalRow % pageRow == 0) ? 0 : +1);
 					<!-- 삭제 가능 -->
 					<td><%=vo.getNum()%></td>
 					<td><a href="ViewCon?num=<%=vo.getNum()%>"><%=vo.getTitle()%></a></td>
+					<td><%=vo.getRealFileName() != null ? "<img src='img/clip.png' style='width:24px;'/>" : "" %></td>
 					<td><%=vo.getWriter()%></td>
 					<td><%=vo.getWriterDate()%></td>
 				</tr>

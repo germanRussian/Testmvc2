@@ -14,8 +14,8 @@ public class WirterMapper {
 		String password = "smart";
 
 		StringBuffer sql = new StringBuffer();
-		sql.append(" INSERT INTO board (num, title, content, writer, writerDate)");
-		sql.append(" VALUES (null, ?, ?, ?, now()) ");
+		sql.append(" INSERT INTO board (num, title, content, writer, writerDate, realFileName, realSaveFileName)");
+		sql.append(" VALUES (null, ?, ?, ?, now(), ?, ? ) ");
 
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -31,6 +31,8 @@ public class WirterMapper {
 			stmt.setString(1, vo.getTitle());
 			stmt.setString(2, vo.getContent());
 			stmt.setString(3, vo.getWriter());
+			stmt.setString(4, vo.getRealFileName());
+			stmt.setString(5, vo.getRealSaveFileName());
 
 			// 출력
 			stmt.executeUpdate();

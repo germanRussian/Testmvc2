@@ -49,6 +49,8 @@ public class ViewMapper {
 				vo2.setTitle(rs.getString("title"));
 				vo2.setContent(rs.getString("content"));
 				vo2.setWriter(rs.getString("writer"));
+				vo2.setRealFileName(rs.getString("realFileName"));
+				vo2.setRealSaveFileName(rs.getString("realSaveFileName"));
 				
 
 			}

@@ -45,6 +45,11 @@ BoardVO vo = (BoardVO)request.getAttribute("vo");
 				type="text" name="writer" value="<%=vo.getWriter()%>"	readonly="readonly">
 		</div>
 		
+		<hr>
+		<div>
+			<span> 첨부파일 : </span> <a href="download.jsp?rsfn=<%=vo.getRealSaveFileName() %>&rfn=<%=vo.getRealFileName() %>"><%=vo.getRealFileName() %></a>
+		</div>
+		
 		<br>
 		<button>글 수정</button>
 	</form>
