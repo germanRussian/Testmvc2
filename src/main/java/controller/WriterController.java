@@ -66,6 +66,7 @@ public class WriterController extends HttpServlet {
 		MultipartRequest multi = 
 				new MultipartRequest(request, 
 						realFolder, maxSize, encType, new DefaultFileRenamePolicy());
+		
 		String title = multi.getParameter("title");
 		String content = multi.getParameter("content");
 		String writer = multi.getParameter("writer");
