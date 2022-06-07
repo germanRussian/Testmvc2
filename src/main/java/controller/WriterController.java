@@ -62,7 +62,7 @@ public class WriterController extends HttpServlet {
 		String encType = "UTF-8";
 		
 		
-		//넘어온 값을 변수에 저장
+		//넘어온 값을 변수(멀티객체)에 저장
 		MultipartRequest multi = 
 				new MultipartRequest(request, 
 						realFolder, maxSize, encType, new DefaultFileRenamePolicy());

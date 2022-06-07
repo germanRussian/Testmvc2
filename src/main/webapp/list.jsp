@@ -17,13 +17,15 @@ int pageRow = (Integer) request.getAttribute("pageRow");
 int pagingNum = (Integer) request.getAttribute("pagingNum");
 int startNum = (Integer) request.getAttribute("startNum");
 
-String keyWord = (String) request.getAttribute("keyWord");
 String field = (String) request.getAttribute("field");
+String keyWord = (String) request.getAttribute("keyWord");
 
+
+String field1 = (String) request.getAttribute("field1");
 String keyWord1 = (String) request.getAttribute("keyWord1");
 String keyWord2 = (String) request.getAttribute("keyWord2");
 String keyWord3 = (String) request.getAttribute("keyWord3");
-String field1 = (String) request.getAttribute("field1");
+
 
 int lastPage = totalRow / pageRow + ((totalRow % pageRow == 0) ? 0 : +1);
 

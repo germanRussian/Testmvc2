@@ -40,6 +40,7 @@ public class UpdateController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		
 		BoardVO vo = new BoardVO();
 		vo.setNum(Integer.parseInt(request.getParameter("num")));
 
@@ -90,6 +91,10 @@ public class UpdateController extends HttpServlet {
 		String realFileName = multi.getOriginalFileName("updatefile");
 		String realSaveFileName = multi.getFilesystemName("updatefile");
 
+		if(realFileName == null) {
+			realFileName = multi.getParameter("rfn");
+			realSaveFileName = multi.getParameter("rsfn");
+		}
 		
 		
 		BoardVO vo = new BoardVO();
@@ -102,11 +107,7 @@ public class UpdateController extends HttpServlet {
 
 		//
 
-		if (realSaveFileName != null) {
-			vo.getRealSaveFileName();
-		} else {
-
-		}
+		
 
 		UpdateServiceImpl service = new UpdateServiceImpl();
 		service.update(vo);

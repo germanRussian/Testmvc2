@@ -85,16 +85,19 @@ public class ListController extends HttpServlet {
 		if (keyWord3 == null) {
 			keyWord3 = "";
 		}
-
-		//
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
 		//BoardInfo boardInfo = service.boardInfo(startPage, pageRow, field, keyWord);
 		BoardInfo boardInfo = service.boardInfo(startPage, pageRow, field1, keyWord1, keyWord2, keyWord3);
+		
 		// 페이징
 		int startNum = (((pageNum - 1) / pagingNum) * pagingNum) + 1;
 
 		// 글 넘버링
 		int totalNum = boardInfo.getTotalRow() - ((pageNum - 1) * pageRow);
 
+		
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		request.setAttribute("pagingNum", pagingNum);
 		request.setAttribute("startNum", startNum);
 

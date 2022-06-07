@@ -4,6 +4,7 @@
 	pageEncoding="UTF-8"%>
 
 <%
+request.setCharacterEncoding("UTF-8");
 BoardVO vo = (BoardVO) request.getAttribute("vo");
 %>
 <!DOCTYPE html>
@@ -16,14 +17,16 @@ BoardVO vo = (BoardVO) request.getAttribute("vo");
 	홈화면 > 게시판 수정하기
 	<hr>
 
+	<!-- enctype="multipart/form-data" 작성시 request 타입으로 못받는다 -->
 	<form action="UpdateCon" method="post" enctype="multipart/form-data">
 		<div>
 			<!-- <span> 게시글 번호</span> -->
 			<input type="hidden" name="num" id="num" value="<%=vo.getNum()%>"
-				style="border: 0 solid black" readonly="readonly"> <input
-				type="hidden" name="rsfn" id="rsfn"
-				value="<%=vo.getRealFileName()%>" style="border: 0 solid black"
-				readonly="readonly">
+				style="border: 0 solid black" readonly="readonly">
+			<input type="hidden" name="rfn" id="rfn" value="<%=vo.getRealFileName()%>" 
+			 	style="border: 0 solid black" readonly="readonly">
+			<input type="hidden" name="rsfn" id="rsfn" value="<%=vo.getRealSaveFileName() %>" 
+			 	style="border: 0 solid black" readonly="readonly">
 		</div>
 		<div>
 			<span>제목 : </span> <input style="width: 450px; border: 0 solid black"
