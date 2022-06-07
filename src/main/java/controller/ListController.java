@@ -125,7 +125,7 @@ public class ListController extends HttpServlet {
 //		request.setAttribute("totalRow", totalRow);//페이징 처리 - 갯수 확인
 //		
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("list.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("board/list.jsp");
 		dispatcher.forward(request, response);
 
 	}

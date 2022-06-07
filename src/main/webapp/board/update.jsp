@@ -12,6 +12,19 @@ BoardVO vo = (BoardVO) request.getAttribute("vo");
 <head>
 <meta charset="UTF-8">
 <title>게시판 수정 화면</title>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+<!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+<!-- 부가적인 테마 -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </head>
 <body>
 	홈화면 > 게시판 수정하기
@@ -48,13 +61,13 @@ BoardVO vo = (BoardVO) request.getAttribute("vo");
 			
 			기존 파일 : <a href="download.jsp?rsfn=<%=vo.getRealSaveFileName()%>&rfn=<%=vo.getRealFileName()%>"><%=vo.getRealFileName()%></a>
 			<br>
-			수정 파일 : <input type="file" name="updatefile" class="form-control" value="<%=vo.getRealFileName()%>"> 
+			수정 파일 : <input type="file" name="updatefile" value="<%=vo.getRealFileName()%>"> 
 		</div>
 		</div>
 		<hr>
 		<br>
-		<button onclick="location.href='ListCon'" type="button">목록</button>
-		<button>수정</button>
+		<button class="btn btn-default" onclick="location.href='ListCon'" type="button">목록</button>
+		<button class="btn btn-default">수정</button>
 
 
 	</form>

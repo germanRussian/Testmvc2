@@ -49,7 +49,7 @@ public class UpdateController extends HttpServlet {
 
 		request.setAttribute("vo", vo2);
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("update.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("board/update.jsp");
 		dispatcher.forward(request, response);
 
 	}
