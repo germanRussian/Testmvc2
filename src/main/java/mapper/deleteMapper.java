@@ -6,7 +6,7 @@ import domain.BoardVO;
 
 public class deleteMapper {
 
-	public void delete(BoardVO vo) {
+	public void delete(int num) {
 
 		/* DB연결 */
 
@@ -33,7 +33,7 @@ public class deleteMapper {
 			// SQL
 			stmt = conn.prepareStatement(sql.toString());
 			// 값 설정(쿼리 문 '?'에 들어 갈 값)
-			stmt.setInt(1, vo.getNum());
+			stmt.setInt(1, num);
 			// 출력
 			stmt.executeUpdate();
 

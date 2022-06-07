@@ -15,28 +15,37 @@ BoardVO vo = (BoardVO) request.getAttribute("vo");
 <head>
 <meta charset="UTF-8">
 <title>상세보기 화면</title>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+<!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+<!-- 부가적인 테마 -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </head>
 <body>
 	홈화면 > 게시판 글 상세보기
 	<hr>
-	<form action="UpdateCon?num=<%=vo.getNum()%>" method="get" id="frm">
+	<form action="" method="" id="frm">
+		<!-- <span> 게시글 번호</span> -->
+		<input  type="hidden" name="num" id="num" value="<%=vo.getNum()%>">
+		<input	type="hidden" name="realSaveFileName"	value="<%=vo.getRealSaveFileName()%>">
 
-		<div>
-			<!-- <span> 게시글 번호</span> -->
-			<input type="hidden" name="num" id="num" value="<%=vo.getNum()%>"
-				style="border: 0 solid black" readonly="readonly">
-		</div>
 		<div>
 			<span>제목 : </span> <input style="width: 450px; border: 0 solid black"
 				type="text" name="title" value="<%=vo.getTitle()%>"
-				readonly="readonly">
+				disabled="disabled" disabled="disabled">
 		</div>
 		<hr>
 		<div>
 			<span>내용</span><br>
-			<textarea rows="10" cols="100" name="content" readonly="readonly"><%=vo.getContent()%></textarea>
+			<textarea rows="10" cols="100" name="content" disabled="disabled"><%=vo.getContent()%></textarea>
 
 
 		</div>
@@ -44,7 +53,7 @@ BoardVO vo = (BoardVO) request.getAttribute("vo");
 		<div>
 			<span>작성자</span> <input style="width: 450px; border: 0 solid black"
 				type="text" name="writer" value="<%=vo.getWriter()%>"
-				readonly="readonly">
+				disabled="disabled">
 		</div>
 
 		<hr>
@@ -54,9 +63,31 @@ BoardVO vo = (BoardVO) request.getAttribute("vo");
 		</div>
 
 		<br>
-		<button onclick="location.href='ListCon'" type="button">목록</button>
-		<button>수정</button>
-		<button onclick="location.href='DelCon?num=<%=vo.getNum()%>&rsfn=<%=vo.getRealSaveFileName()%>&rfn=<%=vo.getRealFileName()%>'" id="delete_btn" type="button">삭제</button>
+		<button type="button" class="btn btn-default" onclick="location.href='ListCon'">목록</button>
+		<button type="button" class="btn btn-default" id="btn_modi">수정</button>
+		<button type="button" class="btn btn-danger" id="btn_del">삭제</button>
 	</form>
+	<script>
+		$(document).ready(function() {
+			$("#btn_del").on("click", function(e) {
+				e.preventDefault();
+
+				if (confirm("삭제하시겠습니까?")) {
+					$("#frm").attr("method", "post");
+					$("#frm").attr("action", "DelCon");
+					$("#frm").submit();
+				}
+
+			});
+			
+			$("#btn_modi").on("click", function(e) {
+				e.preventDefault();
+				
+					$("#frm").attr("method", "get");
+					$("#frm").attr("action", "UpdateCon");
+					$("#frm").submit();
+			});
+		});
+	</script>
 </body>
 </html>

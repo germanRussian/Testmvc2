@@ -75,6 +75,9 @@ public class UpdateController extends HttpServlet {
 			// targetDir.mkdirs();
 		}
 		
+	
+		
+		
 		
 		int maxSize = 10 * 1024 * 1024;// 10Mb
 		String encType = "UTF-8";
@@ -91,9 +94,13 @@ public class UpdateController extends HttpServlet {
 		String realFileName = multi.getOriginalFileName("updatefile");
 		String realSaveFileName = multi.getFilesystemName("updatefile");
 
+		//글만 수정시 원래 파일 유지.
 		if(realFileName == null) {
 			realFileName = multi.getParameter("rfn");
 			realSaveFileName = multi.getParameter("rsfn");
+		}else {
+			File delFile = new File(realFolder,  multi.getParameter("rsfn"));
+			delFile.delete();
 		}
 		
 		
